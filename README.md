@@ -1,12 +1,13 @@
 # Open conjectures resolved with Lean 4 proofs
 
-This repository contains three machine-checked resolutions of previously unresolved, publicly stated conjectures. Every theorem is checked by Lean 4 (`v4.37.0-rc1`) with Mathlib. There is no `sorry`, `admit`, `native_decide` or added `axiom`. `#print axioms` on every main theorem reports only Lean's standard axioms `propext`, `Classical.choice` and `Quot.sound`.
+This repository contains four machine-checked resolutions of previously unresolved, publicly stated conjectures. Every theorem is checked by Lean 4 (`v4.37.0-rc1`) with Mathlib. There is no `sorry`, `admit`, `native_decide` or added `axiom`. `#print axioms` on every main theorem reports only Lean's standard axioms `propext`, `Classical.choice` and `Quot.sound`.
 
 | Result | Source | Type | Lean | Write-up |
 |---|---|---|---|---|
 | The conjecture is **proved**: the selected sequence c(n) is a subsequence of OEIS A110978 | [MathOverflow 464360](https://mathoverflow.net/questions/464360) (Feb 2024, unanswered) | Proof | [`OpenConjectures/MO464360.lean`](OpenConjectures/MO464360.lean) | [`docs/MO464360.md`](docs/MO464360.md) |
 | The conjecture is **disproved**: A046385 has terms at indices 14, 17 and 21, which the conjecture says do not exist | [OEIS A046385](https://oeis.org/A046385), conjecture by H. Pfoertner (Aug 2019) | Counterexample | [`OpenConjectures/A046385.lean`](OpenConjectures/A046385.lean) | [`docs/A046385.md`](docs/A046385.md) |
 | Conjecture 8 is **disproved**: the Möbius value for n = 2^7·3^6 is −57, but the conjecture allows only 0 or a positive value | [Mirzavaziri–Yaqubi, arXiv:2611.18194](https://arxiv.org/abs/2611.18194), Conjecture 8 (Nov 2026) | Counterexample | [`OpenConjectures/MirzavaziriYaqubi8.lean`](OpenConjectures/MirzavaziriYaqubi8.lean) | [`docs/MirzavaziriYaqubi8.md`](docs/MirzavaziriYaqubi8.md) |
+| Hamilton's family is **proved**: every k whose binary expansion is `10`, then j > 1 ones, then `010` is a term, so the sequence is infinite | [OEIS A179697](https://oeis.org/A179697), conjecture in the original 2010 entry | Proof | [`OpenConjectures/A179697.lean`](OpenConjectures/A179697.lean) | [`docs/A179697.md`](docs/A179697.md) |
 
 ## 1. MathOverflow 464360 — a carry-free subsequence (proved)
 
@@ -42,6 +43,19 @@ Order the unordered factorizations of n by refinement. The prime factorization i
 ```lean
 theorem refutation : ¬ Conjecture8
 ```
+
+## 4. OEIS A179697 — Hamilton's infinite family (proved)
+
+A179697 lists k such that, with R the binary reversal, |k + R(k) − R(k + R(k))| = |k − R(k)| + R(|k − R(k)|) = k. The 2010 entry states: *"All numbers whose binary representation is of the form 10(j 1s)010, where j>1, appear to be terms of this sequence."*
+
+**Proof idea.** Write k = 2q, where q = `10 1^j 01` is a binary palindrome, so R(k) = q. With t = j − 2, the binary words of 3q and 5q are `1000 1^t 0111` and `1110 1^t 0001`, which are reversals of each other. Then k + R(k) = 3q, its reversal is 5q, and |3q − 5q| = 2q = k. Also |k − q| + R(q) = 2q = k. Each such k equals 6(2^(j+2) − 1), so the sequence is infinite.
+
+```lean
+theorem hamilton_family {k j : ℕ} (hj : 1 < j)
+    (hw : (Nat.digits 2 k).reverse = hamiltonWord j) : Member k
+```
+
+The same file also proves Branicky's 2026 conjecture that every term starts with `1011` and ends with `11010`. That result is **not** claimed as new: a complete argument already appeared in [TruReTuring issue 29105](https://github.com/the-omega-institute/trureturing/issues/29105), which explicitly leaves Hamilton's family open.
 
 ## Verifying
 
