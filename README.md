@@ -1,0 +1,46 @@
+# Open conjectures resolved with Lean 4 proofs
+
+This repository contains two machine-checked resolutions of previously unresolved, publicly stated conjectures. Every theorem is checked by Lean 4 (`v4.37.0-rc1`) with Mathlib. There is no `sorry`, `admit`, `native_decide` or added `axiom`. `#print axioms` on every main theorem reports only Lean's standard axioms `propext`, `Classical.choice` and `Quot.sound`.
+
+| Result | Source | Type | Lean | Write-up |
+|---|---|---|---|---|
+| The conjecture is **proved**: the selected sequence c(n) is a subsequence of OEIS A110978 | [MathOverflow 464360](https://mathoverflow.net/questions/464360) (Feb 2024, unanswered) | Proof | [`OpenConjectures/MO464360.lean`](OpenConjectures/MO464360.lean) | [`docs/MO464360.md`](docs/MO464360.md) |
+| The conjecture is **disproved**: A046385 has terms at indices 14, 17 and 21, which the conjecture says do not exist | [OEIS A046385](https://oeis.org/A046385), conjecture by H. Pfoertner (Aug 2019) | Counterexample | [`OpenConjectures/A046385.lean`](OpenConjectures/A046385.lean) | [`docs/A046385.md`](docs/A046385.md) |
+
+## 1. MathOverflow 464360 — a carry-free subsequence (proved)
+
+Let b(n) start at A = n and repeatedly apply A := A + min(2^tr(A), A / 2^tr(A)) while A < 2n, where tr(A) is the number of trailing binary zeros. Let c(n) list the odd k with b((k−1)/2) = k. The question conjectured that c(n) is a subsequence of [A110978](https://oeis.org/A110978), the odd composite numbers that factor as u·v with u, v > 1 where binary long multiplication needs no carry.
+
+**Proof idea.** Look at the last step x → k = 2n+1, where x = 2^t·d with d odd. The step s = min(2^t, d) is at least 2, so x is even. If s = 2^t, then k would be even. So s = d < 2^t and k = d·(2^t + 1). Multiplying d by 2^t+1 places two copies of d into disjoint binary blocks, so the multiplication has no carry. Lean also proves c is infinite (it contains every 3·2^t + 3 with t ≥ 2) and gives a strictly increasing index map between the two increasing enumerations:
+
+```lean
+theorem mathOverflow464360 :
+    ∃ g : ℕ → ℕ, StrictMono g ∧ ∀ i, Nat.nth inC i = Nat.nth inA (g i)
+```
+
+## 2. OEIS A046385 — the exhaustiveness conjecture (disproved)
+
+A046385(k) is the smallest palindrome with exactly k palindromic prime factors (counted with multiplicity) and no other prime factors. The entry lists terms for k = 0..13, 15, 16 and 20 and states: *"Conjecture: The sequence is finite and has no other terms than those shown here."*
+
+**Counterexample.** p = 10^46 + 10^33 + 10^23 + 10^13 + 1 is a palindromic prime. Lean certifies this with a Lucas (Pratt) certificate that the kernel checks. Multiplying a palindrome of at most 9 digits by p writes five symmetric, non-overlapping copies of it, so the product is again a palindrome:
+
+| k | witness | factorization |
+|---|---|---|
+| 14 | 2977792 · p | 2^12 · 727 · p |
+| 17 | 40955904 · p | 2^12 · 3^2 · 11 · 101 · p |
+| 21 | 677707776 · p | 2^16 · 3^3 · 383 · p |
+
+These witnesses give upper bounds on a(14), a(17) and a(21), not their exact values. **Scope:** this refutes the conjecture as stated, specifically its "no other terms" clause. Whether the sequence is finite is still open.
+
+## Verifying
+
+Install [elan](https://github.com/leanprover/elan), then run:
+
+```bash
+lake exe cache get   # download prebuilt Mathlib
+lake build           # checks both files; prints the #print axioms lines
+```
+
+## Provenance and caveats
+
+These results were found and formalized by AI agents (OpenAI GPT‑6.2 Astra, coordinated by Claude) and reviewed before publication. "Previously unresolved" is based on searches done on 27 Nov 2026: the MathOverflow question had no answers or comments; the OEIS entry, its revision history and the literature showed no refutation. See each write-up for the search details. Priority beyond the sources searched cannot be guaranteed. Both are modest results on lightly studied problems. They are not famous conjectures.

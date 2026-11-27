@@ -1,0 +1,86 @@
+{
+  "checked_utc": "2026-11-27T04:47:37.096875+00:00",
+  "question": {
+    "question_id": 464360,
+    "title": "Possible subsequence of the A110978",
+    "link": "https://mathoverflow.net/questions/464360/possible-subsequence-of-the-a110978",
+    "answer_count": 0,
+    "is_answered": false,
+    "creation_date": 1708186470,
+    "last_activity_date": 1708186470
+  },
+  "closure_recorded": false,
+  "thread_api": "https://api.stackexchange.com/2.3/questions/464360?site=mathoverflow&pagesize=100",
+  "answers": {
+    "url": "https://api.stackexchange.com/2.3/questions/464360/answers?site=mathoverflow&pagesize=100",
+    "has_more": false,
+    "count": 0,
+    "ids": []
+  },
+  "comments": {
+    "url": "https://api.stackexchange.com/2.3/questions/464360/comments?site=mathoverflow&pagesize=100",
+    "has_more": false,
+    "count": 0,
+    "ids": []
+  },
+  "linked": {
+    "url": "https://api.stackexchange.com/2.3/questions/464360/linked?site=mathoverflow&pagesize=100",
+    "has_more": false,
+    "count": 0,
+    "ids": []
+  },
+  "related": {
+    "url": "https://api.stackexchange.com/2.3/questions/464360/related?site=mathoverflow&pagesize=100",
+    "has_more": false,
+    "count": 4,
+    "ids": [
+      469990,
+      469473,
+      408917,
+      404108
+    ]
+  },
+  "stack_search": {
+    "mathoverflow": {
+      "url": "https://api.stackexchange.com/2.3/search/advanced?site=mathoverflow&pagesize=100&q=A110978",
+      "has_more": false,
+      "ids": [
+        464360
+      ]
+    },
+    "math": {
+      "url": "https://api.stackexchange.com/2.3/search/advanced?site=math&pagesize=100&q=A110978",
+      "has_more": false,
+      "ids": []
+    }
+  },
+  "openalex": {
+    "url": "https://api.openalex.org/works?search=A110978&per_page=10",
+    "count": 0
+  },
+  "oeis_term_search": {
+    "url": "https://oeis.org/stripped.gz",
+    "entry_count": 402003,
+    "target_entry_present": true,
+    "contiguous_terms_sought": [
+      15,
+      27,
+      45,
+      51,
+      63,
+      85,
+      99,
+      119,
+      153,
+      165,
+      187,
+      195
+    ],
+    "matching_entries": []
+  },
+  "oeis_entry": {
+    "url": "https://raw.githubusercontent.com/oeis/oeisdata/main/seq/A110/A110978.seq",
+    "contains_sequence_reference": false,
+    "record_header": "%I A110978 #2 Dec 09 2007 03:00:00"
+  }
+}
