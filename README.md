@@ -1,6 +1,6 @@
 # Open conjectures resolved with Lean 4 proofs
 
-This repository contains five machine-checked resolutions of previously unresolved, publicly stated conjectures. Every theorem is checked by Lean 4 (`v4.37.0-rc1`) with Mathlib. There is no `sorry`, `admit`, `native_decide` or added `axiom`. `#print axioms` on every main theorem reports only Lean's standard axioms `propext`, `Classical.choice` and `Quot.sound`.
+This repository contains six machine-checked resolutions of previously unresolved, publicly stated conjectures. Every theorem is checked by Lean 4 (`v4.37.0-rc1`) with Mathlib. There is no `sorry`, `admit`, `native_decide` or added `axiom`. `#print axioms` on every main theorem reports only Lean's standard axioms `propext`, `Classical.choice` and `Quot.sound`.
 
 | Result | Source | Type | Lean | Write-up |
 |---|---|---|---|---|
@@ -9,6 +9,7 @@ This repository contains five machine-checked resolutions of previously unresolv
 | Conjecture 8 is **disproved**: the Möbius value for n = 2^7·3^6 is −57, but the conjecture allows only 0 or a positive value | [Mirzavaziri–Yaqubi, arXiv:2611.18194](https://arxiv.org/abs/2611.18194), Conjecture 8 (Nov 2026) | Counterexample | [`OpenConjectures/MirzavaziriYaqubi8.lean`](OpenConjectures/MirzavaziriYaqubi8.lean) | [`docs/MirzavaziriYaqubi8.md`](docs/MirzavaziriYaqubi8.md) |
 | Hamilton's family is **proved**: every k whose binary expansion is `10`, then j > 1 ones, then `010` is a term, so the sequence is infinite | [OEIS A179697](https://oeis.org/A179697), conjecture in the original 2010 entry | Proof | [`OpenConjectures/A179697.lean`](OpenConjectures/A179697.lean) | [`docs/A179697.md`](docs/A179697.md) |
 | Conjecture 1.4 is **disproved**: the poset made of a 5-element chain plus 2 isolated points has no effective barcode | [Mou, arXiv:2611.32429](https://arxiv.org/abs/2611.32429), Conjecture 1.4 (Nov 2026) | Counterexample | [`OpenConjectures/MouBarcode.lean`](OpenConjectures/MouBarcode.lean) | [`docs/MouBarcode.md`](docs/MouBarcode.md) |
+| Conjecture 4 is **disproved**: at d = 4 the sequence repeats every 3 gaps, not every 4 as predicted | [van Berkel–Bosma, arXiv:2609.16843v2](https://arxiv.org/abs/2609.16843), Conjecture 4 (Nov 2026) | Counterexample | [`OpenConjectures/VanBerkelBosma4.lean`](OpenConjectures/VanBerkelBosma4.lean) | [`docs/VanBerkelBosma4.md`](docs/VanBerkelBosma4.md) |
 
 ## 1. MathOverflow 464360 — a carry-free subsequence (proved)
 
@@ -67,6 +68,18 @@ The same file also proves Branicky's 2026 conjecture that every term starts with
 ```lean
 theorem mou_conjecture_false : ¬ MouConjecture
 ```
+
+## 6. van Berkel–Bosma Conjecture 4 — periods of 3-sumfree sequences (disproved)
+
+S_{f,g,h} starts f < g < h. Each next term is the least integer larger than all previous terms that is not a sum of three distinct previous terms. [Conjecture 4](https://arxiv.org/abs/2609.16843) (added in v2): *"For every d ≥ 3 the 3-sumfree sequence S_{1,d−1,2d−1} is ultimately periodic, and, with the exception of d = 3 or d = 5, the preperiod length is d + 3 and the period length is d modulo 8d − 1."*
+
+**Counterexample.** For d = 4, S_{1,3,7} = 1, 3, 7, 8, 9, 10, 15, 29, 35, 36, 56, 62, 63, 83, … Its gaps are 2, 4, 1, 1, 1, 5, 14, then (6, 1, 20) repeating, so the period is 3 (modulus 27), not 4. Lean certifies the first 13 terms against the greedy definition and shows that the 8th and 12th gaps differ (6 ≠ 1). A period of 4 after a preperiod of 7 is therefore impossible.
+
+```lean
+theorem conjecture4_false : ¬ Conjecture4
+```
+
+*Note.* For every d from 6 to 20 the actual modulus is 8d−3, not 8d−1, which is probably a misprint. The file's second theorem (d = 6) uses that discrepancy. The d = 4 result does not: it still refutes the conjecture after the misprint is corrected. See [`docs/VanBerkelBosma4.md`](docs/VanBerkelBosma4.md).
 
 ## Verifying
 
