@@ -1,5 +1,7 @@
 # Mirzavaziri–Yaqubi Conjecture 8
 
+> **Priority correction (added on review).** The original search below missed [TruReTuring issue #31640](https://github.com/the-omega-institute/trureturing/issues/31640), posted 19 Nov 2026. It refutes the same sign clause with the counterexample n = 2^7·3^7 (μ(0̂, 1̂) = 344 on a 2,998-element interval, Ω = 14) and a computational certificate. That record predates this one, so the refutation is not new here. This document contributes an independent, smaller witness (2^7·3^6, μ = −57) and a completed Lean proof.
+
 The proposed sign rule fails at **\(n=93\,312=2^7 3^6\)**. Its prime factorization has 13 factors counted with multiplicity, so the conjecture permits zero or a positive value. The Möbius function from the prime factorization to the one-factor factorization has value **\(-57\)**. This single counterexample disproves the universally quantified conjecture, including when its domain is restricted to integers greater than one.
 
 ## Statement and open-status check

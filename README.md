@@ -1,12 +1,12 @@
 # Open conjectures resolved with Lean 4 proofs
 
-This repository contains six machine-checked resolutions of previously unresolved, publicly stated conjectures. Every theorem is checked by Lean 4 (`v4.37.0-rc1`) with Mathlib. There is no `sorry`, `admit`, `native_decide` or added `axiom`. `#print axioms` on every main theorem reports only Lean's standard axioms `propext`, `Classical.choice` and `Quot.sound`.
+This repository contains six machine-checked resolutions of publicly stated conjectures. Five had no earlier public resolution that we could find. For the sixth (Mirzavaziri–Yaqubi Conjecture 8), an independent refutation was posted publicly before ours (see §3). Every theorem is checked by Lean 4 (`v4.37.0-rc1`) with Mathlib. There is no `sorry`, `admit`, `native_decide` or added `axiom`. `#print axioms` on every main theorem reports only Lean's standard axioms `propext`, `Classical.choice` and `Quot.sound`.
 
 | Result | Source | Type | Lean | Write-up |
 |---|---|---|---|---|
 | The conjecture is **proved**: the selected sequence c(n) is a subsequence of OEIS A110978 | [MathOverflow 464360](https://mathoverflow.net/questions/464360) (Feb 2024, unanswered) | Proof | [`OpenConjectures/MO464360.lean`](OpenConjectures/MO464360.lean) | [`docs/MO464360.md`](docs/MO464360.md) |
 | The conjecture is **disproved**: A046385 has terms at indices 14, 17 and 21, which the conjecture says do not exist | [OEIS A046385](https://oeis.org/A046385), conjecture by H. Pfoertner (Aug 2019) | Counterexample | [`OpenConjectures/A046385.lean`](OpenConjectures/A046385.lean) | [`docs/A046385.md`](docs/A046385.md) |
-| Conjecture 8 is **disproved**: the Möbius value for n = 2^7·3^6 is −57, but the conjecture allows only 0 or a positive value | [Mirzavaziri–Yaqubi, arXiv:2611.18194](https://arxiv.org/abs/2611.18194), Conjecture 8 (Nov 2026) | Counterexample | [`OpenConjectures/MirzavaziriYaqubi8.lean`](OpenConjectures/MirzavaziriYaqubi8.lean) | [`docs/MirzavaziriYaqubi8.md`](docs/MirzavaziriYaqubi8.md) |
+| Conjecture 8 is **disproved**: the Möbius value for n = 2^7·3^6 is −57, but the conjecture allows only 0 or a positive value | [Mirzavaziri–Yaqubi, arXiv:2611.18194](https://arxiv.org/abs/2611.18194), Conjecture 8 (Nov 2026) | Counterexample (not first — see note) | [`OpenConjectures/MirzavaziriYaqubi8.lean`](OpenConjectures/MirzavaziriYaqubi8.lean) | [`docs/MirzavaziriYaqubi8.md`](docs/MirzavaziriYaqubi8.md) |
 | Hamilton's family is **proved**: every k whose binary expansion is `10`, then j > 1 ones, then `010` is a term, so the sequence is infinite | [OEIS A179697](https://oeis.org/A179697), conjecture in the original 2010 entry | Proof | [`OpenConjectures/A179697.lean`](OpenConjectures/A179697.lean) | [`docs/A179697.md`](docs/A179697.md) |
 | Conjecture 1.4 is **disproved**: the poset made of a 5-element chain plus 2 isolated points has no effective barcode | [Mou, arXiv:2611.32429](https://arxiv.org/abs/2611.32429), Conjecture 1.4 (Nov 2026) | Counterexample | [`OpenConjectures/MouBarcode.lean`](OpenConjectures/MouBarcode.lean) | [`docs/MouBarcode.md`](docs/MouBarcode.md) |
 | Conjecture 4 is **disproved**: at d = 4 the sequence repeats every 3 gaps, not every 4 as predicted | [van Berkel–Bosma, arXiv:2609.16843v2](https://arxiv.org/abs/2609.16843), Conjecture 4 (Nov 2026) | Counterexample | [`OpenConjectures/VanBerkelBosma4.lean`](OpenConjectures/VanBerkelBosma4.lean) | [`docs/VanBerkelBosma4.md`](docs/VanBerkelBosma4.md) |
@@ -45,6 +45,8 @@ Order the unordered factorizations of n by refinement. The prime factorization i
 ```lean
 theorem refutation : ¬ Conjecture8
 ```
+
+**Prior work.** This is not the first refutation. [TruReTuring issue #31640](https://github.com/the-omega-institute/trureturing/issues/31640) (19 Nov 2026) had already refuted the same sign clause with a different counterexample, n = 2^7·3^7 (μ = 344, Ω = 14), backed by a computational certificate, with a Lean proof preregistered. Our witness 2^7·3^6 is smaller and independent, and this repository gives a completed Lean proof. The refutation itself should be credited to that earlier record.
 
 ## 4. OEIS A179697 — Hamilton's infinite family (proved)
 
@@ -92,4 +94,4 @@ lake build           # checks all files; prints the #print axioms lines
 
 ## Provenance and caveats
 
-These results were found and formalized by AI agents (OpenAI GPT‑6.2 Astra, coordinated by Claude) and reviewed before publication. "Previously unresolved" is based on searches done on 27 Nov 2026: the MathOverflow question had no answers or comments; the OEIS entry, its revision history and the literature showed no refutation. See each write-up for the search details. Priority beyond the sources searched cannot be guaranteed. All are modest results on lightly studied problems. They are not famous conjectures.
+These results were found and formalized by AI agents (OpenAI GPT‑6.2 Astra, coordinated by Claude) and reviewed before publication. "Previously unresolved" is based on searches done on 27 Nov 2026, including the public AI-resolution catalogues [solved-conjectures](https://github.com/1337isnot1337/solved-conjectures) and [TruReTuring](https://github.com/the-omega-institute/trureturing): the MathOverflow question had no answers or comments; the OEIS entry, its revision history and the literature showed no refutation. See each write-up for the search details. Priority beyond the sources searched cannot be guaranteed. All are modest results on lightly studied problems. They are not famous conjectures.
