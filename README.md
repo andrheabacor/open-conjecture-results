@@ -1,6 +1,6 @@
 # Open conjectures resolved with Lean 4 proofs
 
-This repository contains eight machine-checked resolutions of publicly stated conjectures and questions. Seven had no earlier public resolution that we could find. For the remaining one (Mirzavaziri–Yaqubi Conjecture 8), an independent refutation was posted publicly before ours (see §3). Every theorem is checked by Lean 4 (`v4.37.0-rc1`) with Mathlib. There is no `sorry`, `admit`, `native_decide` or added `axiom`. `#print axioms` on every main theorem reports only Lean's standard axioms `propext`, `Classical.choice` and `Quot.sound`.
+This repository contains nine machine-checked resolutions of publicly stated conjectures and questions. Eight had no earlier public resolution that we could find. For the remaining one (Mirzavaziri–Yaqubi Conjecture 8), an independent refutation was posted publicly before ours (see §3). Every theorem is checked by Lean 4 (`v4.37.0-rc1`) with Mathlib. There is no `sorry`, `admit`, `native_decide` or added `axiom`. `#print axioms` on every main theorem reports only Lean's standard axioms `propext`, `Classical.choice` and `Quot.sound`.
 
 | Result | Source | Type | Lean | Write-up |
 |---|---|---|---|---|
@@ -12,6 +12,7 @@ This repository contains eight machine-checked resolutions of publicly stated co
 | Conjecture 4 is **disproved**: at d = 4 the sequence repeats every 3 gaps, not every 4 as predicted | [van Berkel–Bosma, arXiv:2609.16843v2](https://arxiv.org/abs/2609.16843), Conjecture 4 (Nov 2026) | Counterexample | [`OpenConjectures/VanBerkelBosma4.lean`](OpenConjectures/VanBerkelBosma4.lean) | [`docs/VanBerkelBosma4.md`](docs/VanBerkelBosma4.md) |
 | The conjecture is **proved**: every x > 13 has some 1 ≤ y < x with Σ_{d∣y} (x mod d) a square > 1, and the exceptions are exactly {2, 3, 4, 5, 6, 13} | [Math.SE 5152147](https://math.stackexchange.com/questions/5152147) (Oct 2026, unanswered) | Proof | [`OpenConjectures/MSE5152147.lean`](OpenConjectures/MSE5152147.lean) | [`docs/MSE5152147.md`](docs/MSE5152147.md) |
 | The log-concavity question is **answered negatively**: the connected zero forcing polynomial of a unicyclic graph need not be log-concave | [Mukherjee–Ray, arXiv:2611.10985v2](https://arxiv.org/abs/2611.10985), Problem 6.2 (Nov 2026) | Counterexample | [`OpenConjectures/UnicyclicLogConcavity.lean`](OpenConjectures/UnicyclicLogConcavity.lean) | [`docs/UnicyclicLogConcavity.md`](docs/UnicyclicLogConcavity.md) |
+| The cycle inequality is **disproved**: a simple cycle of length 233 with 146 up-steps has 2^233 > 3^147 | [Vasilyev, arXiv:2611.20344v2](https://arxiv.org/abs/2611.20344), Question 7.1 (Nov 2026) | Counterexample | [`OpenConjectures/VasilyevCycle.lean`](OpenConjectures/VasilyevCycle.lean) | [`docs/VasilyevCycle.md`](docs/VasilyevCycle.md) |
 
 ## 1. MathOverflow 464360 — a carry-free subsequence (proved)
 
@@ -107,6 +108,16 @@ theorem not_unicyclic_log_concavity : ¬ UniversalClaim
 ```
 
 Problem 6.2 also asks for a general formula and about extremal graphs. Those parts remain open here.
+
+## 9. Vasilyev Question 7.1 — up/down cycles of Collatz-type maps (disproved)
+
+For S ⊆ ℕ, T_S sends x to ⌈3x/2⌉ if x ∈ S and to ⌈x/2⌉ otherwise. The cycles of all such maps are the simple cycles of the "up-down graph". A cycle of length ℓ with a up-steps always satisfies 3^a < 2^ℓ. [Vasilyev](https://arxiv.org/abs/2611.20344) asks (Question 7.1): *"Does every cycle satisfy 2^ℓ < 3^(a+1), that is, a = ⌊ℓ log₃ 2⌋?"* This was checked for all cycles of length ≤ 30 and all 1,133,265,572 cycles with elements ≤ 160.
+
+**Counterexample.** A simple cycle through 3 has length 233, 146 up-steps and largest element 698, and 2^233 > 3^147. Lean checks every edge, distinctness, the least period, the counts and the inequality, and reproduces four rows of the paper's cycle census as sanity checks. The cycle gives 2^ℓ/3^a ≥ 3.0219… for the paper's follow-up question about the supremum, which stays open.
+
+```lean
+theorem cycleBound_false : ¬ CycleBound
+```
 
 ## Verifying
 
