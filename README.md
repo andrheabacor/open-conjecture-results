@@ -1,6 +1,6 @@
 # Open conjectures resolved with Lean 4 proofs
 
-This repository contains four machine-checked resolutions of previously unresolved, publicly stated conjectures. Every theorem is checked by Lean 4 (`v4.37.0-rc1`) with Mathlib. There is no `sorry`, `admit`, `native_decide` or added `axiom`. `#print axioms` on every main theorem reports only Lean's standard axioms `propext`, `Classical.choice` and `Quot.sound`.
+This repository contains five machine-checked resolutions of previously unresolved, publicly stated conjectures. Every theorem is checked by Lean 4 (`v4.37.0-rc1`) with Mathlib. There is no `sorry`, `admit`, `native_decide` or added `axiom`. `#print axioms` on every main theorem reports only Lean's standard axioms `propext`, `Classical.choice` and `Quot.sound`.
 
 | Result | Source | Type | Lean | Write-up |
 |---|---|---|---|---|
@@ -8,6 +8,7 @@ This repository contains four machine-checked resolutions of previously unresolv
 | The conjecture is **disproved**: A046385 has terms at indices 14, 17 and 21, which the conjecture says do not exist | [OEIS A046385](https://oeis.org/A046385), conjecture by H. Pfoertner (Aug 2019) | Counterexample | [`OpenConjectures/A046385.lean`](OpenConjectures/A046385.lean) | [`docs/A046385.md`](docs/A046385.md) |
 | Conjecture 8 is **disproved**: the Möbius value for n = 2^7·3^6 is −57, but the conjecture allows only 0 or a positive value | [Mirzavaziri–Yaqubi, arXiv:2611.18194](https://arxiv.org/abs/2611.18194), Conjecture 8 (Nov 2026) | Counterexample | [`OpenConjectures/MirzavaziriYaqubi8.lean`](OpenConjectures/MirzavaziriYaqubi8.lean) | [`docs/MirzavaziriYaqubi8.md`](docs/MirzavaziriYaqubi8.md) |
 | Hamilton's family is **proved**: every k whose binary expansion is `10`, then j > 1 ones, then `010` is a term, so the sequence is infinite | [OEIS A179697](https://oeis.org/A179697), conjecture in the original 2010 entry | Proof | [`OpenConjectures/A179697.lean`](OpenConjectures/A179697.lean) | [`docs/A179697.md`](docs/A179697.md) |
+| Conjecture 1.4 is **disproved**: the poset made of a 5-element chain plus 2 isolated points has no effective barcode | [Mou, arXiv:2611.32429](https://arxiv.org/abs/2611.32429), Conjecture 1.4 (Nov 2026) | Counterexample | [`OpenConjectures/MouBarcode.lean`](OpenConjectures/MouBarcode.lean) | [`docs/MouBarcode.md`](docs/MouBarcode.md) |
 
 ## 1. MathOverflow 464360 — a carry-free subsequence (proved)
 
@@ -56,6 +57,16 @@ theorem hamilton_family {k j : ℕ} (hj : 1 < j)
 ```
 
 The same file also proves Branicky's 2026 conjecture that every term starts with `1011` and ends with `11010`. That result is **not** claimed as new: a complete argument already appeared in [TruReTuring issue 29105](https://github.com/the-omega-institute/trureturing/issues/29105), which explicitly leaves Hamilton's family open.
+
+## 5. Mou's Conjecture 1.4 — effective barcodes for order polytopes (disproved)
+
+[Mou](https://arxiv.org/abs/2611.32429) defines binomial barcodes a of a poset P and a function B_a. A barcode is *effective* if F_P(N) ≤ B_a(N) for every N, where F_P(N) is the largest number of positive homothetic copies of the order polytope's vertex set that fit in an N-point set. Conjecture 1.4: *"Every finite poset with at least two elements admits an effective barcode."*
+
+**Counterexample.** Let P be a 5-element chain plus 2 isolated elements. Its strict order polynomial is Ω°(q) = C(q,5)·q², which is 0 for q < 5 and 25 at q = 5. By the paper's Theorem 1.2, every barcode has B_a(25) = Σ_{q<5} Ω°(q) = 0. The order polytope has 6·4 = 24 vertices, so the vertices plus any one extra point form a 25-point set with at least one copy. So F_P(25) ≥ 1 > 0 = B_a(25), and no barcode of P is effective. Lean derives B_a(25) = 0 directly from the barcode definitions, without assuming Theorem 1.2.
+
+```lean
+theorem mou_conjecture_false : ¬ MouConjecture
+```
 
 ## Verifying
 
