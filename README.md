@@ -1,6 +1,6 @@
 # Open conjectures resolved with Lean 4 proofs
 
-This repository contains six machine-checked resolutions of publicly stated conjectures. Five had no earlier public resolution that we could find. For the sixth (Mirzavaziri–Yaqubi Conjecture 8), an independent refutation was posted publicly before ours (see §3). Every theorem is checked by Lean 4 (`v4.37.0-rc1`) with Mathlib. There is no `sorry`, `admit`, `native_decide` or added `axiom`. `#print axioms` on every main theorem reports only Lean's standard axioms `propext`, `Classical.choice` and `Quot.sound`.
+This repository contains seven machine-checked resolutions of publicly stated conjectures. Six had no earlier public resolution that we could find. For the remaining one (Mirzavaziri–Yaqubi Conjecture 8), an independent refutation was posted publicly before ours (see §3). Every theorem is checked by Lean 4 (`v4.37.0-rc1`) with Mathlib. There is no `sorry`, `admit`, `native_decide` or added `axiom`. `#print axioms` on every main theorem reports only Lean's standard axioms `propext`, `Classical.choice` and `Quot.sound`.
 
 | Result | Source | Type | Lean | Write-up |
 |---|---|---|---|---|
@@ -10,6 +10,7 @@ This repository contains six machine-checked resolutions of publicly stated conj
 | Hamilton's family is **proved**: every k whose binary expansion is `10`, then j > 1 ones, then `010` is a term, so the sequence is infinite | [OEIS A179697](https://oeis.org/A179697), conjecture in the original 2010 entry | Proof | [`OpenConjectures/A179697.lean`](OpenConjectures/A179697.lean) | [`docs/A179697.md`](docs/A179697.md) |
 | Conjecture 1.4 is **disproved**: the poset made of a 5-element chain plus 2 isolated points has no effective barcode | [Mou, arXiv:2611.32429](https://arxiv.org/abs/2611.32429), Conjecture 1.4 (Nov 2026) | Counterexample | [`OpenConjectures/MouBarcode.lean`](OpenConjectures/MouBarcode.lean) | [`docs/MouBarcode.md`](docs/MouBarcode.md) |
 | Conjecture 4 is **disproved**: at d = 4 the sequence repeats every 3 gaps, not every 4 as predicted | [van Berkel–Bosma, arXiv:2609.16843v2](https://arxiv.org/abs/2609.16843), Conjecture 4 (Nov 2026) | Counterexample | [`OpenConjectures/VanBerkelBosma4.lean`](OpenConjectures/VanBerkelBosma4.lean) | [`docs/VanBerkelBosma4.md`](docs/VanBerkelBosma4.md) |
+| The conjecture is **proved**: every x > 13 has some 1 ≤ y < x with Σ_{d∣y} (x mod d) a square > 1, and the exceptions are exactly {2, 3, 4, 5, 6, 13} | [Math.SE 5152147](https://math.stackexchange.com/questions/5152147) (Oct 2026, unanswered) | Proof | [`OpenConjectures/MSE5152147.lean`](OpenConjectures/MSE5152147.lean) | [`docs/MSE5152147.md`](docs/MSE5152147.md) |
 
 ## 1. MathOverflow 464360 — a carry-free subsequence (proved)
 
@@ -82,6 +83,17 @@ theorem conjecture4_false : ¬ Conjecture4
 ```
 
 *Note.* For every d from 6 to 20 the actual modulus is 8d−3, not 8d−1, which is probably a misprint. The file's second theorem (d = 6) uses that discrepancy. The d = 4 result does not: it still refutes the conjecture after the misprint is corrected. See [`docs/VanBerkelBosma4.md`](docs/VanBerkelBosma4.md).
+
+## 7. Math.SE 5152147 — square sums of remainders over divisors (proved)
+
+Let S(x, y) = Σ_{d∣y} (x mod d). The question conjectures that every x > 13 has some 1 ≤ y < x with S(x, y) a perfect square greater than 1. The asker had checked this up to 10⁷.
+
+**Proof.** S(x, y) depends only on x mod y, so if y divides x − 4 then S(x, y) = S(4, y). Following a comment by lulu, any prime p > 4 dividing x − 4 gives S = 0 + 4 = 4. If 8 divides x − 4, then S(4, 8) = 4. If 27 divides x − 4, then S(4, 27) = 9. Otherwise x − 4 divides 36, so x ∈ {16, 22, 40}, and these are settled directly (y = 12, 13, 12 give S = 9). Lean also proves the exceptions for x ≥ 2 are exactly {2, 3, 4, 5, 6, 13}.
+
+```lean
+theorem mse_5152147 (x : ℕ) (hx : 13 < x) :
+    ∃ y : ℕ, 1 ≤ y ∧ y < x ∧ ∃ k : ℕ, 2 ≤ k ∧ remainderSum x y = k ^ 2
+```
 
 ## Verifying
 

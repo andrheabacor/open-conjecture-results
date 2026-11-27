@@ -1,0 +1,126 @@
+{
+  "checked_utc": "2026-11-27T06:14:14.723179+00:00",
+  "source": {
+    "question_id": 5152147,
+    "title": "existence of a non-trivial perfect square sum of modular remainders over divisors",
+    "author": "pie",
+    "url": "https://math.stackexchange.com/questions/5152147/existence-of-a-non-trivial-perfect-square-sum-of-modular-remainders-over-divisor",
+    "created_utc": "2026-10-18T06:29:20+00:00",
+    "answer_count": 0,
+    "answer_api_ids": [],
+    "revision_api_count": 1,
+    "latest_revision": "74DCA33F-FF1B-4646-A9E2-9C3543712245",
+    "linked_question_ids": [],
+    "comments": [
+      {
+        "id": 11127625,
+        "author": "lulu",
+        "created_utc": "2026-10-18T09:53:42+00:00",
+        "url": "https://math.stackexchange.com/questions/5152147/existence-of-a-non-trivial-perfect-square-sum-of-modular-remainders-over-divisor#comment11127625_5152147"
+      },
+      {
+        "id": 11127632,
+        "author": "lulu",
+        "created_utc": "2026-10-18T10:38:25+00:00",
+        "url": "https://math.stackexchange.com/questions/5152147/existence-of-a-non-trivial-perfect-square-sum-of-modular-remainders-over-divisor#comment11127632_5152147"
+      }
+    ]
+  },
+  "catalogue_checks": [
+    {
+      "source": "trure-conjectures",
+      "hits": []
+    },
+    {
+      "source": "trure-research-main",
+      "hits": []
+    },
+    {
+      "source": "trure-sitemap",
+      "hits": []
+    },
+    {
+      "source": "davis-page",
+      "hits": []
+    },
+    {
+      "source": "davis-contents",
+      "hits": []
+    },
+    {
+      "source": "davis-readme",
+      "hits": []
+    },
+    {
+      "search": "trureturing-modular-remainders",
+      "total": 1,
+      "items": [
+        [
+          "https://github.com/the-omega-institute/trureturing/issues/29792",
+          "Preregister classical recursive long-division prefix and real-series bridge for Chapter 36"
+        ]
+      ]
+    },
+    {
+      "search": "trureturing-5152147",
+      "total": 0,
+      "items": []
+    },
+    {
+      "search": "solved-conjectures-modular-remainders",
+      "total": 0,
+      "items": []
+    },
+    {
+      "search": "solved-conjectures-5152147",
+      "total": 0,
+      "items": []
+    },
+    {
+      "search": "github-global-issue",
+      "total": 0,
+      "items": []
+    }
+  ],
+  "davis_published_snapshot": "2026-11-19",
+  "davis_repository_tree": {
+    "sha": "9587fe4fe9b8d0b8ffb5b158bbfb91361fe70e80",
+    "entries": 19918,
+    "truncated": false
+  },
+  "trureturing_displayed_results": 2235,
+  "aixiv_corpus": {
+    "url": "https://aixiv.online/api/v1/corpus.jsonl",
+    "fetched_utc": "2026-11-27T06:12:17.856159+00:00",
+    "records": 9541,
+    "kinds": {
+      "record": 9541
+    },
+    "first_row_fields": [
+      "aixiv_id",
+      "title",
+      "authors",
+      "date",
+      "category",
+      "source",
+      "source_url",
+      "url",
+      "standing",
+      "withdrawn",
+      "lean_formalization",
+      "ai_role",
+      "impact",
+      "result",
+      "part_of",
+      "results"
+    ],
+    "exact_hits": [],
+    "near_topic_hits": []
+  },
+  "literature": {
+    "arxiv_query": "all:\"sum of modular remainders\"",
+    "arxiv_results": 0,
+    "openalex_title_query": "sum of modular remainders",
+    "openalex_results": 0
+  }
+}
