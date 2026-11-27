@@ -1,11 +1,12 @@
 # Open conjectures resolved with Lean 4 proofs
 
-This repository contains two machine-checked resolutions of previously unresolved, publicly stated conjectures. Every theorem is checked by Lean 4 (`v4.37.0-rc1`) with Mathlib. There is no `sorry`, `admit`, `native_decide` or added `axiom`. `#print axioms` on every main theorem reports only Lean's standard axioms `propext`, `Classical.choice` and `Quot.sound`.
+This repository contains three machine-checked resolutions of previously unresolved, publicly stated conjectures. Every theorem is checked by Lean 4 (`v4.37.0-rc1`) with Mathlib. There is no `sorry`, `admit`, `native_decide` or added `axiom`. `#print axioms` on every main theorem reports only Lean's standard axioms `propext`, `Classical.choice` and `Quot.sound`.
 
 | Result | Source | Type | Lean | Write-up |
 |---|---|---|---|---|
 | The conjecture is **proved**: the selected sequence c(n) is a subsequence of OEIS A110978 | [MathOverflow 464360](https://mathoverflow.net/questions/464360) (Feb 2024, unanswered) | Proof | [`OpenConjectures/MO464360.lean`](OpenConjectures/MO464360.lean) | [`docs/MO464360.md`](docs/MO464360.md) |
 | The conjecture is **disproved**: A046385 has terms at indices 14, 17 and 21, which the conjecture says do not exist | [OEIS A046385](https://oeis.org/A046385), conjecture by H. Pfoertner (Aug 2019) | Counterexample | [`OpenConjectures/A046385.lean`](OpenConjectures/A046385.lean) | [`docs/A046385.md`](docs/A046385.md) |
+| Conjecture 8 is **disproved**: the Möbius value for n = 2^7·3^6 is −57, but the conjecture allows only 0 or a positive value | [Mirzavaziri–Yaqubi, arXiv:2611.18194](https://arxiv.org/abs/2611.18194), Conjecture 8 (Nov 2026) | Counterexample | [`OpenConjectures/MirzavaziriYaqubi8.lean`](OpenConjectures/MirzavaziriYaqubi8.lean) | [`docs/MirzavaziriYaqubi8.md`](docs/MirzavaziriYaqubi8.md) |
 
 ## 1. MathOverflow 464360 — a carry-free subsequence (proved)
 
@@ -32,15 +33,25 @@ A046385(k) is the smallest palindrome with exactly k palindromic prime factors (
 
 These witnesses give upper bounds on a(14), a(17) and a(21), not their exact values. **Scope:** this refutes the conjecture as stated, specifically its "no other terms" clause. Whether the sequence is finite is still open.
 
+## 3. Mirzavaziri–Yaqubi Conjecture 8 — Möbius signs on the factorization poset (disproved)
+
+Order the unordered factorizations of n by refinement. The prime factorization is at the bottom and [n] is at the top. [Mirzavaziri and Yaqubi](https://arxiv.org/abs/2611.18194) conjectured that μ(prime factorization, n) *"is either 0 or has the sign (−1)^(Ω(n)+1), and it vanishes for n=p^k with k≥3"*. They checked every n with Ω(n) ≤ 8.
+
+**Counterexample.** n = 93312 = 2^7·3^6 has Ω(n) = 13, so the conjecture allows only 0 or a positive value. The actual value is **μ = −57**, computed over the 1,752 factorizations of n. The Lean proof checks a certificate of the whole interval against Mathlib's `IncidenceAlgebra.mu`. Three separate programs agree, and the reviewer's program reproduces all 20 entries of the paper's Table 1.
+
+```lean
+theorem refutation : ¬ Conjecture8
+```
+
 ## Verifying
 
 Install [elan](https://github.com/leanprover/elan), then run:
 
 ```bash
 lake exe cache get   # download prebuilt Mathlib
-lake build           # checks both files; prints the #print axioms lines
+lake build           # checks all files; prints the #print axioms lines
 ```
 
 ## Provenance and caveats
 
-These results were found and formalized by AI agents (OpenAI GPT‑6.2 Astra, coordinated by Claude) and reviewed before publication. "Previously unresolved" is based on searches done on 27 Nov 2026: the MathOverflow question had no answers or comments; the OEIS entry, its revision history and the literature showed no refutation. See each write-up for the search details. Priority beyond the sources searched cannot be guaranteed. Both are modest results on lightly studied problems. They are not famous conjectures.
+These results were found and formalized by AI agents (OpenAI GPT‑6.2 Astra, coordinated by Claude) and reviewed before publication. "Previously unresolved" is based on searches done on 27 Nov 2026: the MathOverflow question had no answers or comments; the OEIS entry, its revision history and the literature showed no refutation. See each write-up for the search details. Priority beyond the sources searched cannot be guaranteed. All are modest results on lightly studied problems. They are not famous conjectures.
