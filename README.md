@@ -1,6 +1,6 @@
 # Open conjectures resolved with Lean 4 proofs
 
-This repository contains seven machine-checked resolutions of publicly stated conjectures. Six had no earlier public resolution that we could find. For the remaining one (Mirzavaziri–Yaqubi Conjecture 8), an independent refutation was posted publicly before ours (see §3). Every theorem is checked by Lean 4 (`v4.37.0-rc1`) with Mathlib. There is no `sorry`, `admit`, `native_decide` or added `axiom`. `#print axioms` on every main theorem reports only Lean's standard axioms `propext`, `Classical.choice` and `Quot.sound`.
+This repository contains eight machine-checked resolutions of publicly stated conjectures and questions. Seven had no earlier public resolution that we could find. For the remaining one (Mirzavaziri–Yaqubi Conjecture 8), an independent refutation was posted publicly before ours (see §3). Every theorem is checked by Lean 4 (`v4.37.0-rc1`) with Mathlib. There is no `sorry`, `admit`, `native_decide` or added `axiom`. `#print axioms` on every main theorem reports only Lean's standard axioms `propext`, `Classical.choice` and `Quot.sound`.
 
 | Result | Source | Type | Lean | Write-up |
 |---|---|---|---|---|
@@ -11,6 +11,7 @@ This repository contains seven machine-checked resolutions of publicly stated co
 | Conjecture 1.4 is **disproved**: the poset made of a 5-element chain plus 2 isolated points has no effective barcode | [Mou, arXiv:2611.32429](https://arxiv.org/abs/2611.32429), Conjecture 1.4 (Nov 2026) | Counterexample | [`OpenConjectures/MouBarcode.lean`](OpenConjectures/MouBarcode.lean) | [`docs/MouBarcode.md`](docs/MouBarcode.md) |
 | Conjecture 4 is **disproved**: at d = 4 the sequence repeats every 3 gaps, not every 4 as predicted | [van Berkel–Bosma, arXiv:2609.16843v2](https://arxiv.org/abs/2609.16843), Conjecture 4 (Nov 2026) | Counterexample | [`OpenConjectures/VanBerkelBosma4.lean`](OpenConjectures/VanBerkelBosma4.lean) | [`docs/VanBerkelBosma4.md`](docs/VanBerkelBosma4.md) |
 | The conjecture is **proved**: every x > 13 has some 1 ≤ y < x with Σ_{d∣y} (x mod d) a square > 1, and the exceptions are exactly {2, 3, 4, 5, 6, 13} | [Math.SE 5152147](https://math.stackexchange.com/questions/5152147) (Oct 2026, unanswered) | Proof | [`OpenConjectures/MSE5152147.lean`](OpenConjectures/MSE5152147.lean) | [`docs/MSE5152147.md`](docs/MSE5152147.md) |
+| The log-concavity question is **answered negatively**: the connected zero forcing polynomial of a unicyclic graph need not be log-concave | [Mukherjee–Ray, arXiv:2611.10985v2](https://arxiv.org/abs/2611.10985), Problem 6.2 (Nov 2026) | Counterexample | [`OpenConjectures/UnicyclicLogConcavity.lean`](OpenConjectures/UnicyclicLogConcavity.lean) | [`docs/UnicyclicLogConcavity.md`](docs/UnicyclicLogConcavity.md) |
 
 ## 1. MathOverflow 464360 — a carry-free subsequence (proved)
 
@@ -94,6 +95,18 @@ Let S(x, y) = Σ_{d∣y} (x mod d). The question conjectures that every x > 13 h
 theorem mse_5152147 (x : ℕ) (hx : 13 < x) :
     ∃ y : ℕ, 1 ≤ y ∧ y < x ∧ ∃ k : ℕ, 2 ≤ k ∧ remainderSum x y = k ^ 2
 ```
+
+## 8. Mukherjee–Ray Problem 6.2 — log-concavity for unicyclic graphs (answered: no)
+
+A set S of vertices is a *connected zero forcing set* if it induces a connected subgraph and colors the whole graph under the rule "a colored vertex with exactly one uncolored neighbor colors it". [Mukherjee and Ray](https://arxiv.org/abs/2611.10985) prove that the polynomial counting these sets by size is log-concave for every tree. In v2 they ask (Problem 6.2): *"Is this polynomial always log-concave?"* for unicyclic graphs.
+
+**Counterexample.** Take a 5-cycle with a path of two edges attached (7 vertices). Its connected zero forcing polynomial is 5x² + 7x³ + 10x⁴ + 8x⁵ + 5x⁶ + x⁷, and 7² = 49 < 50 = 5·10. Lean computes the full coefficient vector from the definition and checks three of the paper's own printed polynomials as sanity lemmas.
+
+```lean
+theorem not_unicyclic_log_concavity : ¬ UniversalClaim
+```
+
+Problem 6.2 also asks for a general formula and about extremal graphs. Those parts remain open here.
 
 ## Verifying
 
