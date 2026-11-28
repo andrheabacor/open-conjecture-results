@@ -7,3 +7,4 @@ import OpenConjectures.VanBerkelBosma4
 import OpenConjectures.MSE5152147
 import OpenConjectures.UnicyclicLogConcavity
 import OpenConjectures.VasilyevCycle
+import OpenConjectures.ConnectedDominationBound

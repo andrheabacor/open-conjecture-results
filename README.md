@@ -1,6 +1,6 @@
 # Open conjectures resolved with Lean 4 proofs
 
-This repository contains nine machine-checked resolutions of publicly stated conjectures and questions. Eight had no earlier public resolution that we could find. For the remaining one (Mirzavaziri–Yaqubi Conjecture 8), an independent refutation was posted publicly before ours (see §3). Every theorem is checked by Lean 4 (`v4.37.0-rc1`) with Mathlib. There is no `sorry`, `admit`, `native_decide` or added `axiom`. `#print axioms` on every main theorem reports only Lean's standard axioms `propext`, `Classical.choice` and `Quot.sound`.
+This repository contains ten machine-checked resolutions of publicly stated conjectures and questions. Nine had no earlier public resolution that we could find. For the remaining one (Mirzavaziri–Yaqubi Conjecture 8), an independent refutation was posted publicly before ours (see §3). Every theorem is checked by Lean 4 (`v4.37.0-rc1`) with Mathlib. There is no `sorry`, `admit`, `native_decide` or added `axiom`. `#print axioms` on every main theorem reports only Lean's standard axioms `propext`, `Classical.choice` and `Quot.sound`.
 
 | Result | Source | Type | Lean | Write-up |
 |---|---|---|---|---|
@@ -13,6 +13,7 @@ This repository contains nine machine-checked resolutions of publicly stated con
 | The conjecture is **proved**: every x > 13 has some 1 ≤ y < x with Σ_{d∣y} (x mod d) a square > 1, and the exceptions are exactly {2, 3, 4, 5, 6, 13} | [Math.SE 5152147](https://math.stackexchange.com/questions/5152147) (Oct 2026, unanswered) | Proof | [`OpenConjectures/MSE5152147.lean`](OpenConjectures/MSE5152147.lean) | [`docs/MSE5152147.md`](docs/MSE5152147.md) |
 | The log-concavity question is **answered negatively**: the connected zero forcing polynomial of a unicyclic graph need not be log-concave | [Mukherjee–Ray, arXiv:2611.10985v2](https://arxiv.org/abs/2611.10985), Problem 6.2 (Nov 2026) | Counterexample | [`OpenConjectures/UnicyclicLogConcavity.lean`](OpenConjectures/UnicyclicLogConcavity.lean) | [`docs/UnicyclicLogConcavity.md`](docs/UnicyclicLogConcavity.md) |
 | The cycle inequality is **disproved**: a simple cycle of length 233 with 146 up-steps has 2^233 > 3^147 | [Vasilyev, arXiv:2611.20344v2](https://arxiv.org/abs/2611.20344), Question 7.1 (Nov 2026) | Counterexample | [`OpenConjectures/VasilyevCycle.lean`](OpenConjectures/VasilyevCycle.lean) | [`docs/VasilyevCycle.md`](docs/VasilyevCycle.md) |
+| The root-bound question is **answered**: every connected-domination root satisfies \|z+1\| ≤ 4n / max(1, 2δ+2−n) | [Shao–Zhao, arXiv:2609.06569v5](https://arxiv.org/abs/2609.06569), Open Problem 4 (Sept 2026) | Proof | [`OpenConjectures/ConnectedDominationBound.lean`](OpenConjectures/ConnectedDominationBound.lean) | [`docs/ConnectedDominationBound.md`](docs/ConnectedDominationBound.md) |
 
 ## 1. MathOverflow 464360 — a carry-free subsequence (proved)
 
@@ -118,6 +119,21 @@ For S ⊆ ℕ, T_S sends x to ⌈3x/2⌉ if x ∈ S and to ⌈x/2⌉ otherwise. 
 ```lean
 theorem cycleBound_false : ¬ CycleBound
 ```
+
+## 10. Shao–Zhao Open Problem 4 — a bound for connected domination roots (answered)
+
+The connected domination polynomial D_c(G, x) counts connected dominating sets of a connected graph G by size. [Shao and Zhao](https://arxiv.org/abs/2609.06569) show these roots are dense in ℂ, so no bound independent of the graph exists. They ask whether there is *"an explicit bound for connected domination roots analogous to Oboudi's"*, depending on the order n and possibly the minimum degree δ.
+
+**Theorem.** Let k = max(1, 2δ+2−n). Every root satisfies |z+1| ≤ 4n/k. *Proof idea:* two closed neighbourhoods share at least 2δ+2−n vertices, so deleting fewer than k vertices always leaves a connected dominating set. Comparing D_c(z) = 0 with (1+z)ⁿ = Σ_S z^|S| then gives the bound. It is linear in n, which is the right order since cycles have roots with |z+1| ≈ n, and it is bounded once δ ≥ 3n/4.
+
+```lean
+theorem explicit_disk (G : SimpleGraph V) [DecidableRel G.Adj] (hG : G.Connected)
+    {z : ℂ} (hz : (connectedDominationPolynomial G).IsRoot z) :
+    ‖z + 1‖ ≤ 4 * (Fintype.card V : ℝ) /
+      ((max 1 (2 * G.minDegree + 2 - Fintype.card V) : ℕ) : ℝ)
+```
+
+*Caveat.* A crude exponential bound in n already follows from Cauchy's root bound, so the bare existence question is easy. The contribution is a linear, degree-sensitive bound of the correct order.
 
 ## Verifying
 
